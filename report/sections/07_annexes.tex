@@ -1,0 +1,25 @@
+\appendix
+\section{Espaces de recherche des hyperparamètres}\label{app:grids}
+Noms de scikit-learn (préfixe \texttt{clf\_\_} omis) ; $|\mathcal G|$ : nombre de configurations de la grille (5 plis chacune). RF-SMOTE ajoute \texttt{smote\_\_k\_neighbors} ; WRF et WLR reprennent les espaces de RF et LR.
+
+\begin{table*}[t]\centering\caption{Grilles (GridSearchCV) et distributions (RandomizedSearchCV, 30 tirages).}\label{tab:grids}
+\input{tables/tab_grids}
+\end{table*}
+
+\section{Résultats complets : biomarqueurs seuls}\label{app:full}
+\begin{table}[t]\centering\caption{AUC de test avec les seuls biomarqueurs, par défaut (Déf.), GridSearchCV (Grid) et RandomizedSearchCV (Rand.). Les autres métriques sont dans \texttt{results/holdout\_all\_metrics.csv}.}\label{tab:annex}
+\scriptsize\setlength{\tabcolsep}{2.2pt}\input{tables/tab_annex_holdout}
+\end{table}
+
+\section{Extrait de code : boucle imbriquée}
+{\footnotesize
+\begin{verbatim}
+outer = RepeatedStratifiedKFold(5, 2, random_state=42)
+for fold, (tr, te) in enumerate(outer.split(X, y)):
+  default = build(model).fit(X[tr], y[tr])     # avant
+  search = make_search(model, "random", task,  # après
+           n_iter=15, seed=42 + fold, n_jobs=1)
+  search.fit(X[tr], y[tr])   # interne : 5 plis strat.
+  auc_avant = AUC(y[te], default.predict_proba(X[te]))
+  auc_apres = AUC(y[te], search.predict_proba(X[te]))
+\end{verbatim}}

@@ -1,0 +1,13 @@
+\section{Conclusion et perspectives}
+
+\subsection{Rappel des objectifs}
+Nous voulions reproduire le protocole de Bader \emph{et al.} \cite{bader2024} sur le jeu de données fourni, y mettre en place un pipeline complet d'optimisation d'hyperparamètres (\texttt{GridSearchCV}, \texttt{RandomizedSearchCV}, TPE) sous validation croisée stratifiée, et comparer les performances avant et après optimisation.
+
+\subsection{Synthèse des résultats}
+\textbf{Reproduit :} le protocole (découpage 70/30, validation croisée à 5 plis, six classifieurs, pondération, SMOTE, tests de Friedman et de Conover), le classement qualitatif (RF meilleure, LR et NB les plus faibles, WRF $\gg$ WLR, WRF $\gtrsim$ RF-SMOTE au seuil de 10\,\%). \textbf{Amélioré :} un pipeline reproductible comparant grille, recherche aléatoire et bayésienne à budget équivalent, avec temps de calcul, validation imbriquée et tests appariés. L'optimisation ne profite \emph{significativement} qu'à KNN, SVM et ANN (de $+0{,}04$ à $+0{,}12$ d'AUC) ; elle est sans effet sur RF et WRF (AUC $\approx 0{,}93$, test) et ne rend pas la WRF significativement meilleure que RF-SMOTE au seuil de 5\,\%. \textbf{Découvert :} le fichier fournit des valeurs de biomarqueurs dupliquées entre lignes et presque parfaitement alignées sur la classe de sévérité ; sans ces lignes, l'AUC chute à 0,60 (biomarqueurs) et 0,72 (toutes variables) et plus aucune optimisation ne profite aux modèles.
+
+\subsection{Limites}
+Un seul jeu de données, dont l'origine des valeurs dupliquées n'est pas documentée (hypothèse d'imputation non vérifiée) ; un sous-ensemble « propre » de 228 lignes, trop petit pour la tâche à quatre classes et pour des conclusions fines ; des biomarqueurs différents de ceux de l'article, donc une reproduction de protocole et non de valeurs ; pas de validation externe ; un budget de recherche limité (30 tirages, 15 en validation imbriquée).
+
+\subsection{Perspectives}
+(i) Obtenir les données non imputées et un identifiant patient pour une validation \emph{groupée par patient} et un filtrage sur la dernière visite, comme dans l'article ; (ii) imputer à l'intérieur de chaque pli et sans utiliser la cible ; (iii) tester SMOTE-NC, le réglage du seuil de décision et l'étalonnage des probabilités pour la classe sévère ; (iv) appliquer le pipeline à d'autres jeux (par ex.\ données de prêt bancaire, comme le suggère le sujet) ; (v) ajouter des méthodes d'explicabilité. Tant que la question de la fuite n'est pas résolue, ce modèle ne doit pas être déployé comme outil d'aide à la décision clinique.

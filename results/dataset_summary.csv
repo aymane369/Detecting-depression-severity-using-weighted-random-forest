@@ -1,0 +1,14 @@
+variable,type,min,max,mean,std,n_unique,levels
+Humanin,numeric,4.57,932.98,217.62993513925986,110.14834423445144,1174,
+MOTSc,numeric,66.7,1808.1,646.6432697443723,277.06997325990346,1090,
+P66,numeric,5.635,147.9,48.77634986646318,15.664084472362811,574,
+BirthAge,numeric,25.0,104.0,65.31819916062571,11.53621284616731,69,
+PHQ-9-Score,numeric,0.0,24.0,3.6070202212895843,4.030761053095085,25,
+ACE-Update,categorical,,,,,4,"{""2"": 1958, ""1"": 350, ""3"": 312, ""3+"": 1}"
+OtherMeds-Depression,categorical,,,,,2,"{""no"": 2326, ""yes"": 295}"
+Gender,categorical,,,,,2,"{""F"": 1485, ""M"": 1136}"
+DM-Status,categorical,,,,,2,"{""no"": 1816, ""yes"": 805}"
+DM-MedUse,categorical,,,,,2,"{""no"": 2035, ""yes"": 586}"
+CVD-Revised,categorical,,,,,2,"{""no"": 1423, ""yes"": 1198}"
+HT-Status,categorical,,,,,2,"{""yes"": 1357, ""no"": 1264}"
+HT-MedUse,categorical,,,,,2,"{""no"": 1383, ""yes"": 1238}"

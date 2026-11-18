@@ -1,0 +1,55 @@
+\section{Expérimentations et résultats}
+
+\subsection{Environnement de simulation}
+Windows~11 Pro, processeur Intel à 12 threads logiques, Python~3.13.2 (versions des bibliothèques au §\ref{sec:impl}). Aucun GPU n'est utilisé : tous les modèles (y compris l'ANN, un \texttt{MLPClassifier}) s'exécutent sur CPU. Les temps sont des durées réelles mesurées avec \texttt{n\_jobs=-1} (12 processus). Sauf mention contraire, les résultats portent sur le \textbf{jeu de test} (30\,\%, 787 lignes dans le régime complet, 69 dans le régime propre).
+
+\subsection{Résultats du baseline}
+\begin{table*}[t]\centering\caption{Baseline (hyperparamètres par défaut), régime complet, \emph{toutes variables}, jeu de test. F1$_p$ : $F_1$ pondéré ; F1$_m$ : $F_1$ macro. En gras : meilleure valeur de la colonne.}\label{tab:baseline}
+\footnotesize\input{tables/tab_baseline}
+\end{table*}
+
+Le tableau~\ref{tab:baseline} reproduit les tableaux~5 et~9 de \cite{bader2024}. Le \textbf{classement qualitatif est celui de l'article} : la RF est la meilleure sur toutes les métriques (AUC 0,928 en binaire, 0,895 à quatre classes), devant l'ANN (0,853 / 0,847), tandis que LR et NB sont les plus faibles (AUC de 0,71 à 0,75). En valeur absolue, nos AUC sont toutefois nettement supérieures à celles de l'article (0,84 et 0,88 pour la RF), ce qui n'est pas attendu avec moins de biomarqueurs.
+
+Le cas des biomarqueurs seuls est révélateur (annexe~\ref{app:full}) : la RF y atteint une AUC de \textbf{0,936} (binaire), \emph{supérieure} à celle obtenue avec toutes les variables (0,928), alors que l'article observe l'inverse (0,81 puis 0,84). Dans le même temps, LR et NB restent au niveau du hasard (0,54 et 0,50), conformément aux corrélations quasi nulles : seul un modèle capable de \og mémoriser \fg{} des combinaisons exactes de valeurs réussit, ce qui est cohérent avec l'audit de la section~4.1. Les matrices de confusion (figure~\ref{fig:cm}) montrent que la classe sévère est correctement reconnue dans 5 cas sur 9 et la classe modérée dans 8 sur 22 pour la RF par défaut.
+
+\begin{figure}[t]\centering\includegraphics[width=\columnwidth]{../figures/confusion_matrices.pdf}
+\caption{Matrices de confusion sur le test (toutes variables, régime complet) : RF par défaut et WRF optimisée, binaire (haut) et quatre classes (bas).}\label{fig:cm}\end{figure}
+
+\subsection{Résultats des améliorations}
+\paragraph{(A) Optimisation d'hyperparamètres.} Le tableau~\ref{tab:ba} compare les AUC avant et après optimisation. Dans le \textbf{régime complet}, les ensembles d'arbres sont déjà à leur plafond : la RF passe de 0,928 à 0,926 en binaire, alors que son AUC en validation croisée progresse de 0,935 à 0,942 (tableau~\ref{tab:time}) : le gain observé \emph{en validation} ne se retrouve pas \emph{sur le test}. Les modèles plus sensibles aux réglages gagnent davantage : KNN $+0{,}05$ (binaire) et $+0{,}09$ (quatre classes), SVM $+0{,}02$ à $+0{,}04$. Avec les biomarqueurs seuls, SVM et ANN gagnent jusqu'à $+0{,}14$ et $+0{,}08$ (annexe~\ref{app:full}). Pour la WRF à quatre classes, l'optimisation fait passer l'AUC de 0,903 à 0,927 (grille), 0,919 (aléatoire) et 0,915 (Optuna), valeur proche des 0,91 de l'article, mais les intervalles de confiance se chevauchent largement (tableau~\ref{tab:boot}). Dans le \textbf{régime propre}, l'optimisation n'améliore pas la RF (0,695 $\to$ 0,644 pour la grille) et les écarts restent dans l'incertitude ($\pm 0{,}14$).
+
+\begin{table*}[t]\centering\caption{AUC sur le test avant (Déf.) et après optimisation (Grid, Rand.), toutes variables. En gras : meilleure valeur lorsqu'elle améliore le réglage par défaut.}\label{tab:ba}
+\footnotesize\input{tables/tab_before_after}
+\end{table*}
+
+Les hyperparamètres retenus changent de nature selon le régime (figure~\ref{fig:hp}). Dans le régime complet, l'AUC en validation croisée augmente de façon monotone avec la profondeur et diminue quand \texttt{min\_samples\_leaf} croît : l'optimum est l'arbre entièrement développé (\texttt{max\_depth=None}, \texttt{min\_samples\_leaf=1}), avec KNN à pondération par la distance et un SVM à forte capacité ($C\approx 46$, $\gamma\approx 0{,}1$). Dans le régime propre, la surface est quasi plate (0,66--0,72) et favorise des arbres peu profonds (profondeur 3, feuilles de 3) et un SVM très régularisé ($C\approx 0{,}04$) : la recherche y exploite surtout le bruit de la validation croisée.
+
+\begin{figure*}[t]\centering\includegraphics[width=0.78\textwidth]{../figures/hp_sensitivity.pdf}
+\caption{Sensibilité de la RF à \texttt{max\_depth} et \texttt{min\_samples\_leaf} (AUC en validation croisée, grille moyennée sur \texttt{n\_estimators} et \texttt{max\_features}).}\label{fig:hp}\end{figure*}
+
+\paragraph{(B) Pondération, SMOTE et modèle ajouté.} Le tableau~\ref{tab:weighted} confirme l'ordre de l'article à quatre classes (WRF $>$ RF-SMOTE $>$ WLR) : AUC de 0,903, 0,897 et 0,688 par défaut. La WLR s'effondre (exactitude 0,48, $F_{1,m}$ 0,33) : avec des poids atteignant $W\approx 21$ pour la classe sévère, un modèle linéaire sur-prédit les classes rares. La WRF améliore peu l'exactitude équilibrée de la RF (0,644 par défaut, 0,667 optimisée, contre 0,648) ; en binaire elle n'apporte rien (0,923 contre 0,928). Le modèle ajouté, WHGB, est compétitif : meilleur $F_{1,m}$ (0,738) et meilleure exactitude équilibrée (0,693) à quatre classes par défaut.
+
+\begin{table}[t]\centering\caption{Modèles pondérés avant/après optimisation (méthode retenue d'après l'AUC en validation croisée), régime complet, \emph{quatre classes}, toutes variables ; Acc.$_{éq}$ : exactitude équilibrée.}\label{tab:weighted}
+\scriptsize\input{tables/tab_weighted}
+\end{table}
+
+\paragraph{Courbes ROC et d'apprentissage.} Les courbes ROC des RF, WRF et RF-SMOTE se superposent presque dans le régime complet (figure~\ref{fig:roc}a), alors qu'elles sont très irrégulières et mêlées dans le régime propre (figure~\ref{fig:roc}b), où le test ne compte que 19 cas positifs. À quatre classes, la classe modérée est la moins bien séparée (figure~\ref{fig:roc}c). Les courbes d'apprentissage (figure~\ref{fig:lc}) montrent une AUC d'entraînement égale à 1 dans le régime complet et une AUC de validation qui progresse encore à pleine taille (0,92 à 0,94) : l'ajout de données serait plus utile que l'optimisation. Dans le régime propre, la validation plafonne vers 0,66 avec un écart-type large.
+
+\begin{figure*}[t]\centering\includegraphics[width=0.92\textwidth]{../figures/roc_curves.pdf}
+\caption{Courbes ROC sur le test : binaire, régime complet (a) et propre (b), toutes variables (AUC entre parenthèses) ; WRF optimisée à quatre classes, un-contre-tous (c).}\label{fig:roc}\end{figure*}
+
+\begin{figure*}[t]\centering\includegraphics[width=0.92\textwidth]{../figures/learning_curves.pdf}
+\caption{Courbes d'apprentissage (validation croisée à 5 plis sur l'entraînement ; bandes : $\pm1$ écart-type).}\label{fig:lc}\end{figure*}
+
+\subsection{Comparaison baseline et améliorations}
+\paragraph{Coût de calcul.} Le tableau~\ref{tab:time} met en regard le nombre d'ajustements, le temps et l'AUC en validation croisée. Pour la RF, la recherche aléatoire atteint la même qualité que la grille (0,942 contre 0,941) avec 150 au lieu de 320 ajustements ; Optuna (0,942 pour la WRF, 150 ajustements, 33\,s) fait aussi bien. Pour LR, NB et KNN, le coût est négligeable ; pour l'ANN, 41 à 55\,s de calcul n'apportent aucun gain sur le test dans le régime complet (0,853 $\to$ 0,854 / 0,861). À budget équivalent, aucune des trois stratégies ne domine nettement : le gain tient davantage au \emph{choix du modèle} qu'à celui de la méthode de recherche.
+
+\begin{table}[t]\centering\caption{Coût et score de validation (régime complet, binaire, toutes variables) : nombre d'ajustements, temps réel (s) et AUC en validation croisée.}\label{tab:time}
+\scriptsize\input{tables/tab_time}
+\end{table}
+
+\paragraph{Incertitude.} Le tableau~\ref{tab:boot} donne les intervalles de confiance à 95\,\% de l'AUC de test. Dans le régime complet, ils mesurent $\pm 0{,}02$ en binaire et $\pm 0{,}05$ à quatre classes ; dans le régime propre, $\pm 0{,}14$. Pour chaque cadre, les intervalles des quatre variantes se chevauchent ; la plus forte hausse (WRF à quatre classes, toutes variables, $+0{,}024$ sur la WRF par défaut) ne s'en détache donc pas à l'échelle d'un seul découpage, d'où la validation imbriquée ci-dessous.
+
+\begin{table*}[t]\centering\caption{AUC de test et intervalle de confiance \emph{bootstrap} à 95\,\% (1\,000 rééchantillonnages) ; variante optimisée choisie d'après l'AUC en validation croisée.}\label{tab:boot}
+\footnotesize\input{tables/tab_bootstrap}
+\end{table*}

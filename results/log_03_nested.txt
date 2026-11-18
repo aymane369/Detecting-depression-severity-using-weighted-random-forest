@@ -1,0 +1,82 @@
+=== full-binary-MDP (37058s)
+variant   default  tuned
+model                   
+ANN         0.784  0.840
+KNN         0.872  0.920
+LR          0.550  0.554
+NB          0.541  0.542
+RF          0.937  0.931
+RF-SMOTE    0.936  0.932
+SVM         0.725  0.839
+WHGB        0.915  0.916
+WLR         0.549  0.554
+WRF         0.936  0.931
+=== full-binary-ALL (717s)
+variant   default  tuned
+model                   
+ANN         0.885  0.879
+KNN         0.849  0.890
+LR          0.753  0.753
+NB          0.720  0.721
+RF          0.939  0.931
+RF-SMOTE    0.937  0.932
+SVM         0.840  0.849
+WHGB        0.928  0.930
+WLR         0.753  0.753
+WRF         0.938  0.933
+=== full-multi-MDP (985s)
+variant   default  tuned
+model                   
+ANN         0.787  0.841
+KNN         0.858  0.893
+LR          0.637  0.635
+NB          0.628  0.627
+RF          0.912  0.909
+RF-SMOTE    0.916  0.910
+SVM         0.771  0.840
+WHGB        0.909  0.903
+WLR         0.615  0.639
+WRF         0.903  0.903
+=== full-multi-ALL (2054s)
+variant   default  tuned
+model                   
+ANN         0.868  0.877
+KNN         0.823  0.885
+LR          0.773  0.777
+NB          0.753  0.754
+RF          0.926  0.935
+RF-SMOTE    0.919  0.919
+SVM         0.852  0.852
+WHGB        0.928  0.926
+WLR         0.683  0.689
+WRF         0.919  0.928
+=== clean-binary-MDP (249s)
+variant   default  tuned
+model                   
+ANN         0.566  0.576
+KNN         0.593  0.587
+LR          0.554  0.536
+NB          0.500  0.501
+RF          0.603  0.586
+RF-SMOTE    0.601  0.562
+SVM         0.438  0.554
+WHGB        0.605  0.610
+WLR         0.555  0.536
+WRF         0.609  0.597
+=== clean-binary-ALL (229s)
+variant   default  tuned
+model                   
+ANN         0.665  0.686
+KNN         0.650  0.682
+LR          0.722  0.717
+NB          0.696  0.695
+RF          0.716  0.687
+RF-SMOTE    0.705  0.689
+SVM         0.688  0.676
+WHGB        0.680  0.697
+WLR         0.726  0.725
+WRF         0.701  0.687
+Exception ignored in: <function ResourceTracker.__del__ at 0x000001DD77C019E0>
+Traceback (most recent call last):
+  File "C:\Users\msi pc\AppData\Roaming\Python\Python313\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 181, in __del__
+AttributeError: 'super' object has no attribute '__del__'

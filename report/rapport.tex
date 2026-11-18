@@ -1,0 +1,61 @@
+\documentclass[10pt,a4paper,twocolumn]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[margin=1.65cm,top=1.6cm,bottom=1.7cm,columnsep=0.6cm]{geometry}
+\usepackage{graphicx,booktabs,amsmath,amssymb,multirow,array,caption,float,microtype,enumitem,url,xcolor}
+\usepackage[hidelinks]{hyperref}
+\captionsetup{font=small,labelfont=bf,skip=3pt}
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{8pt plus 2pt minus 2pt}
+\setlength{\intextsep}{8pt plus 2pt minus 2pt}
+\renewcommand{\arraystretch}{1.05}
+\setlength{\tabcolsep}{3.2pt}
+\usepackage{titlesec}
+\titleformat{\section}{\normalfont\large\bfseries}{\thesection}{0.6em}{}
+\titlespacing*{\section}{0pt}{8pt plus 2pt minus 2pt}{3pt}
+\titlespacing*{\subsection}{0pt}{5pt plus 2pt minus 1pt}{2pt}
+\titleformat{\paragraph}[runin]{\normalfont\normalsize\bfseries}{}{0pt}{}
+\titlespacing*{\paragraph}{0pt}{2.5pt plus 1pt minus 1pt}{0.55em}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries}{\thesubsection}{0.5em}{}
+\setlength{\parskip}{0pt}
+
+% ---- Auteurs : à compléter ------------------------------------------------
+\newcommand{\AuteurNom}{[Prénom NOM]}
+\newcommand{\AuteurAffil}{[Établissement / Filière]}
+\newcommand{\AuteurMail}{[adresse e-mail]}
+
+\title{\vspace{-0.6cm}\textbf{Optimisation d'hyperparamètres d'une forêt aléatoire pondérée\\ pour la détection de la sévérité de la dépression\\ à partir de biomarqueurs mitochondriaux}\\[3pt]
+\large Reproduction de Bader \emph{et al.} (2024), validation croisée imbriquée\\ et audit de fuite de données}
+\author{\AuteurNom\\ \small \AuteurAffil\\ \small \texttt{\AuteurMail}}
+\date{}
+
+\begin{document}
+
+\twocolumn[
+\begin{@twocolumnfalse}
+\maketitle
+\vspace{-0.9cm}
+\begin{center}\begin{minipage}{0.92\textwidth}\small
+\textbf{Résumé.} \input{sections/00_resume}
+
+\smallskip
+\textbf{Mots-clés :} forêt aléatoire pondérée ; optimisation d'hyperparamètres ; GridSearchCV ; validation croisée stratifiée ; fuite de données ; PHQ-9.
+\end{minipage}\end{center}
+\vspace{0.2cm}
+\end{@twocolumnfalse}
+]
+
+\input{sections/01_introduction}
+\input{sections/02_etat_art}
+\input{sections/03_fondements}
+\input{sections/04_methodologie}
+\input{sections/05a_experiences}
+\input{sections/05b_stats_discussion}
+\input{sections/06_conclusion}
+
+\input{references}
+
+\input{sections/07_annexes}
+\end{document}

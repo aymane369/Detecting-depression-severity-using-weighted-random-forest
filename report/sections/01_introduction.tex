@@ -1,0 +1,26 @@
+\section{Introduction}
+
+\subsection{Contexte général}
+La dépression majeure est l'une des premières causes d'incapacité dans le monde : environ 280 millions de personnes en seraient atteintes, soit près de 5\,\% des adultes \cite{bader2024,hidaka2012}. Son évaluation clinique repose sur des questionnaires, dont le \emph{Patient Health Questionnaire} (PHQ-9) \cite{kroenke2001}, qui convertit les symptômes en un score gradué selon la sévérité. En parallèle, plusieurs travaux relient la dépression à un déséquilibre redox (stress oxydatif) \cite{black2015} et à une dysfonction mitochondriale. Des biomarqueurs sanguins pourraient ainsi compléter le questionnaire et aider les cliniciens à suivre la progression de la maladie ; l'apprentissage automatique est l'outil naturel pour les combiner avec les facteurs socio-démographiques et cliniques.
+
+\subsection{Problématique}
+Bader \emph{et al.} \cite{bader2024} montrent qu'une forêt aléatoire pondérée (\emph{weighted random forest}, WRF) atteint une AUC macro de 0,91 pour classer quatre niveaux de sévérité du PHQ-9 chez 830 participants. Trois verrous subsistent toutefois.
+\begin{enumerate}[leftmargin=*,itemsep=0pt,topsep=2pt]
+\item \textbf{Déséquilibre.} Les classes modérée et sévère représentent ensemble moins de 4\,\% des observations.
+\item \textbf{Optimisation des hyperparamètres.} Le corps de l'article indique seulement qu'une validation croisée à 5 plis avec \emph{grid search} est menée sur l'ensemble d'entraînement ; les espaces de recherche ne sont pas décrits et le gain apporté par l'optimisation n'est pas quantifié (pas de comparaison « avant/après »).
+\item \textbf{Fiabilité de l'évaluation.} Le jeu de données provient de visites répétées d'une même cohorte et de valeurs imputées \cite{bader2024,jelinek2014} : dans ces conditions un découpage aléatoire peut laisser fuiter de l'information entre apprentissage et test \cite{kaufman2012}.
+\end{enumerate}
+
+\subsection{Objectifs}
+Nous cherchons (i) à \textbf{reproduire} le protocole de l'article source (six classifieurs, variantes pondérées et SMOTE, découpage 70/30, validation croisée à 5 plis, tests de Friedman et de Conover) sur le jeu de données fourni ; (ii) à \textbf{améliorer} ces résultats en mettant en place un pipeline complet d'optimisation d'hyperparamètres (\texttt{GridSearchCV}, \texttt{RandomizedSearchCV} et une recherche bayésienne avec Optuna) sous validation croisée stratifiée, et à comparer les performances \textbf{avant et après optimisation} ; (iii) à \textbf{évaluer} cette amélioration de façon statistiquement rigoureuse et critique.
+
+\subsection{Contributions}
+\begin{itemize}[leftmargin=*,itemsep=0pt,topsep=2pt]
+\item Un pipeline reproductible (graines fixées, versions des bibliothèques, code fourni) comparant dix modèles : les six classifieurs de l'article, WLR, WRF, RF-SMOTE, et un modèle ajouté, le \emph{gradient boosting} pondéré (WHGB).
+\item Une comparaison \textbf{avant/après optimisation} de la grille exhaustive, de la recherche aléatoire et de la recherche bayésienne (TPE) à budget comparable, avec coût de calcul.
+\item Une \textbf{validation croisée imbriquée} $5\times 2$ fournissant des scores appariés, soumis à des tests de Wilcoxon, de Student corrigé \cite{nadeau2003} et de Friedman/Conover.
+\item Un \textbf{audit de fuite de données} du fichier fourni, qui conduit à distinguer deux régimes d'analyse (« complet » et « propre ») et modifie profondément la lecture des résultats.
+\end{itemize}
+
+\subsection{Organisation de l'article}
+La section~2 présente l'état de l'art, la section~3 les fondements théoriques, la section~4 la méthodologie (données, baseline, stratégie d'amélioration, protocole). La section~5 rapporte les expérimentations et leur discussion, et la section~6 conclut. Les espaces de recherche et des tableaux complémentaires figurent en annexe.

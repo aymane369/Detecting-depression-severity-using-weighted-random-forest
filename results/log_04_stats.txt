@@ -1,0 +1,102 @@
+             setting     model  mean_default  mean_tuned    gain  p_ttest_corrected  p_wilcoxon  p_wilcoxon_holm
+0   clean-binary-ALL        LR        0.7219      0.7172 -0.0047             0.5702      0.3223           1.0000
+1   clean-binary-ALL        RF        0.7160      0.6871 -0.0289             0.0538      0.0039           0.0391
+2   clean-binary-ALL       KNN        0.6498      0.6818  0.0320             0.3494      0.0977           0.7812
+3   clean-binary-ALL       SVM        0.6884      0.6762 -0.0122             0.6799      0.4922           1.0000
+4   clean-binary-ALL        NB        0.6958      0.6950 -0.0008             0.6643      0.6250           1.0000
+5   clean-binary-ALL       ANN        0.6653      0.6865  0.0212             0.1069      0.0273           0.2461
+6   clean-binary-ALL       WLR        0.7262      0.7254 -0.0008             0.9388      0.9375           1.0000
+7   clean-binary-ALL       WRF        0.7013      0.6869 -0.0144             0.5136      0.1602           0.9609
+8   clean-binary-ALL  RF-SMOTE        0.7048      0.6890 -0.0158             0.6426      0.4316           1.0000
+9   clean-binary-ALL      WHGB        0.6797      0.6970  0.0173             0.5754      0.1309           0.9160
+10  clean-binary-MDP        LR        0.5544      0.5362 -0.0182             0.3828      0.1934           1.0000
+11  clean-binary-MDP        RF        0.6031      0.5855 -0.0176             0.6625      0.3223           1.0000
+12  clean-binary-MDP       KNN        0.5929      0.5874 -0.0054             0.8955      0.9219           1.0000
+13  clean-binary-MDP       SVM        0.4378      0.5536  0.1158             0.1131      0.0273           0.2734
+14  clean-binary-MDP        NB        0.4996      0.5006  0.0010             0.5525      0.6250           1.0000
+15  clean-binary-MDP       ANN        0.5660      0.5760  0.0100             0.7287      0.6953           1.0000
+16  clean-binary-MDP       WLR        0.5549      0.5357 -0.0192             0.3087      0.0352           0.3164
+17  clean-binary-MDP       WRF        0.6090      0.5969 -0.0121             0.6522      0.5566           1.0000
+18  clean-binary-MDP  RF-SMOTE        0.6010      0.5616 -0.0394             0.3548      0.1602           1.0000
+19  clean-binary-MDP      WHGB        0.6049      0.6096  0.0047             0.8553      1.0000           1.0000
+20   full-binary-ALL        LR        0.7529      0.7527 -0.0002             0.7120      0.7480           1.0000
+21   full-binary-ALL        RF        0.9388      0.9314 -0.0075             0.0525      0.0059           0.0469
+22   full-binary-ALL       KNN        0.8487      0.8900  0.0413             0.0025      0.0020           0.0195
+23   full-binary-ALL       SVM        0.8396      0.8485  0.0090             0.2707      0.0645           0.3223
+24   full-binary-ALL        NB        0.7201      0.7206  0.0005             0.0515      0.0020           0.0195
+25   full-binary-ALL       ANN        0.8849      0.8788 -0.0061             0.3173      0.0488           0.2930
+26   full-binary-ALL       WLR        0.7529      0.7526 -0.0003             0.5937      0.6953           1.0000
+27   full-binary-ALL       WRF        0.9379      0.9328 -0.0051             0.2904      0.0840           0.3359
+28   full-binary-ALL  RF-SMOTE        0.9367      0.9323 -0.0044             0.1747      0.0195           0.1367
+29   full-binary-ALL      WHGB        0.9284      0.9302  0.0017             0.7536      0.4922           1.0000
+30   full-binary-MDP        LR        0.5503      0.5541  0.0038             0.3439      0.1055           0.2109
+31   full-binary-MDP        RF        0.9373      0.9311 -0.0062             0.1288      0.0098           0.0586
+32   full-binary-MDP       KNN        0.8720      0.9202  0.0482             0.0006      0.0020           0.0195
+33   full-binary-MDP       SVM        0.7245      0.8392  0.1146             0.0013      0.0020           0.0195
+34   full-binary-MDP        NB        0.5409      0.5418  0.0009             0.0149      0.0020           0.0195
+35   full-binary-MDP       ANN        0.7838      0.8402  0.0564             0.0013      0.0020           0.0195
+36   full-binary-MDP       WLR        0.5490      0.5542  0.0052             0.2574      0.0371           0.1484
+37   full-binary-MDP       WRF        0.9357      0.9306 -0.0051             0.2225      0.0488           0.1484
+38   full-binary-MDP  RF-SMOTE        0.9358      0.9321 -0.0037             0.3018      0.0098           0.0586
+39   full-binary-MDP      WHGB        0.9154      0.9163  0.0009             0.7260      0.4316           0.4316
+40    full-multi-ALL        LR        0.7726      0.7766  0.0040             0.5534      0.3223           1.0000
+41    full-multi-ALL        RF        0.9264      0.9347  0.0083             0.2735      0.0645           0.4512
+42    full-multi-ALL       KNN        0.8225      0.8853  0.0628             0.0030      0.0020           0.0195
+43    full-multi-ALL       SVM        0.8518      0.8516 -0.0002             0.9874      0.7695           1.0000
+44    full-multi-ALL        NB        0.7533      0.7541  0.0008             0.1897      0.0273           0.2461
+45    full-multi-ALL       ANN        0.8679      0.8772  0.0093             0.2518      0.0371           0.2969
+46    full-multi-ALL       WLR        0.6832      0.6893  0.0061             0.8808      0.7695           1.0000
+47    full-multi-ALL       WRF        0.9189      0.9276  0.0088             0.3795      0.1309           0.7852
+48    full-multi-ALL  RF-SMOTE        0.9193      0.9185 -0.0008             0.9262      0.8457           1.0000
+49    full-multi-ALL      WHGB        0.9277      0.9260 -0.0017             0.6144      0.1309           0.7852
+50    full-multi-MDP        LR        0.6372      0.6348 -0.0023             0.7580      0.8457           1.0000
+51    full-multi-MDP        RF        0.9119      0.9088 -0.0031             0.6598      0.3750           1.0000
+52    full-multi-MDP       KNN        0.8581      0.8933  0.0352             0.0015      0.0020           0.0195
+53    full-multi-MDP       SVM        0.7715      0.8397  0.0682             0.0132      0.0039           0.0312
+54    full-multi-MDP        NB        0.6276      0.6275 -0.0001             0.9026      0.3594           1.0000
+55    full-multi-MDP       ANN        0.7871      0.8412  0.0541             0.0002      0.0020           0.0195
+56    full-multi-MDP       WLR        0.6153      0.6390  0.0238             0.4795      0.0273           0.1914
+57    full-multi-MDP       WRF        0.9030      0.9028 -0.0002             0.9825      0.8457           1.0000
+58    full-multi-MDP  RF-SMOTE        0.9162      0.9096 -0.0066             0.2640      0.0645           0.3867
+59    full-multi-MDP      WHGB        0.9087      0.9029 -0.0057             0.4876      0.3750           1.0000
+              setting  variant     group      chi2  p_friedman
+0    clean-binary-ALL  default     base6  14.14040     0.01474
+6    clean-binary-ALL  default  weighted   4.20000     0.12246
+9    clean-binary-ALL  default     all10  21.26578     0.01152
+19   clean-binary-ALL    tuned     base6   3.44928     0.63108
+25   clean-binary-ALL    tuned  weighted   2.60000     0.27253
+28   clean-binary-ALL    tuned     all10   9.16443     0.42224
+38   clean-binary-MDP  default     base6  18.97143     0.00195
+44   clean-binary-MDP  default  weighted   2.60000     0.27253
+47   clean-binary-MDP  default     all10  28.81311     0.00070
+57   clean-binary-MDP    tuned     base6  11.33238     0.04517
+63   clean-binary-MDP    tuned  weighted   2.60000     0.27253
+66   clean-binary-MDP    tuned     all10  25.81752     0.00219
+76    full-binary-ALL  default     base6  48.80000     0.00000
+82    full-binary-ALL  default  weighted  15.80000     0.00037
+85    full-binary-ALL  default     all10  85.09091     0.00000
+95    full-binary-ALL    tuned     base6  47.25714     0.00000
+101   full-binary-ALL    tuned  weighted  15.00000     0.00055
+104   full-binary-ALL    tuned     all10  83.28000     0.00000
+114   full-binary-MDP  default     base6  48.57143     0.00000
+120   full-binary-MDP  default  weighted  15.00000     0.00055
+123   full-binary-MDP  default     all10  85.85455     0.00000
+133   full-binary-MDP    tuned     base6  46.34286     0.00000
+139   full-binary-MDP    tuned  weighted  15.20000     0.00050
+142   full-binary-MDP    tuned     all10  81.62182     0.00000
+152    full-multi-ALL  default     base6  48.00000     0.00000
+158    full-multi-ALL  default  weighted  15.80000     0.00037
+161    full-multi-ALL  default     all10  84.72000     0.00000
+171    full-multi-ALL    tuned     base6  47.37143     0.00000
+177    full-multi-ALL    tuned  weighted  15.80000     0.00037
+180    full-multi-ALL    tuned     all10  83.52000     0.00000
+190    full-multi-MDP  default     base6  48.17143     0.00000
+196    full-multi-MDP  default  weighted  18.20000     0.00011
+199    full-multi-MDP  default     all10  84.06545     0.00000
+209    full-multi-MDP    tuned     base6  47.37143     0.00000
+215    full-multi-MDP    tuned  weighted  15.20000     0.00050
+218    full-multi-MDP    tuned     all10  78.93818     0.00000
+  regime    task model  mean_ALL  mean_MDP    gain  p_wilcoxon  p_ttest_corrected
+0  clean  binary   WRF    0.6869    0.5969  0.0900      0.0039             0.0377
+1   full  binary   WRF    0.9328    0.9306  0.0022      0.6953             0.6844
+2   full   multi   WRF    0.9276    0.9028  0.0248      0.0195             0.1325

@@ -1,0 +1,75 @@
+{
+  "n_rows": 2621,
+  "Humanin": {
+    "n_unique": 1174,
+    "share_rows_shared": 0.6650133536818008,
+    "purity_observed": 0.955249569707401,
+    "purity_permuted": 0.731956397016638,
+    "max_multiplicity": 39
+  },
+  "MOTSc": {
+    "n_unique": 1090,
+    "share_rows_shared": 0.7138496756962991,
+    "purity_observed": 0.948690539818279,
+    "purity_permuted": 0.7373329770176376,
+    "max_multiplicity": 49
+  },
+  "P66": {
+    "n_unique": 574,
+    "share_rows_shared": 0.8492941625333842,
+    "purity_observed": 0.8823000898472596,
+    "purity_permuted": 0.7210467205750224,
+    "max_multiplicity": 90
+  },
+  "triplet": {
+    "n_unique": 1571,
+    "share_rows_shared": 0.5005723006486074,
+    "purity_observed": 0.9885670731707317,
+    "purity_permuted": 0.7404344512195122
+  },
+  "components": {
+    "n_components": 304,
+    "largest": 2148,
+    "n_singletons": 228
+  },
+  "clean_subset": {
+    "n": 228,
+    "prevalence_depressed": 0.2719298245614035,
+    "class_counts": {
+      "0": 166,
+      "1": 52,
+      "2": 7,
+      "3": 3
+    }
+  },
+  "largest_triplet_group": {
+    "size": 36,
+    "n_gender": 2,
+    "n_ace": 3,
+    "age_min": 46,
+    "age_max": 84,
+    "phq_values": [
+      0,
+      1,
+      3
+    ]
+  }
+}
+                                  mean    std
+feature_set protocol                         
+ALL         clean_subset         0.715  0.083
+            group_triplet_all    0.893  0.025
+            one_row_per_triplet  0.858  0.021
+            random_all           0.937  0.012
+            shuffled_all         0.502  0.023
+            shuffled_clean       0.524  0.096
+MDP         clean_subset         0.598  0.059
+            group_triplet_all    0.890  0.034
+            one_row_per_triplet  0.822  0.023
+            random_all           0.938  0.009
+            shuffled_all         0.502  0.028
+            shuffled_clean       0.518  0.081
+Exception ignored in: <function ResourceTracker.__del__ at 0x00000226C39919E0>
+Traceback (most recent call last):
+  File "C:\Users\msi pc\AppData\Roaming\Python\Python313\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 181, in __del__
+AttributeError: 'super' object has no attribute '__del__'

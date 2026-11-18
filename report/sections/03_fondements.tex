@@ -1,0 +1,37 @@
+\section{Fondements théoriques}
+
+\subsection{Méthodes de base}
+\paragraph{Forêt aléatoire.} Soit un échantillon d'apprentissage $\{(x_i,y_i)\}_{i=1}^{n}$ avec $y_i\in\{1,\dots,K\}$. Chaque arbre $b\in\{1,\dots,B\}$ est entraîné sur un échantillon bootstrap, et chaque scission choisit, parmi $m$ variables tirées au hasard, celle qui minimise l'impureté de Gini $G=1-\sum_{k}p_k^{2}$. La probabilité prédite est la moyenne des probabilités des feuilles :
+\begin{equation}
+\hat p(k\mid x)=\frac1B\sum_{b=1}^{B}\hat p_b(k\mid x),\qquad \hat y=\arg\max_k \hat p(k\mid x).
+\end{equation}
+
+\paragraph{Pondération des classes.} Chaque classe $j$ reçoit le poids de l'équation~(9) de \cite{bader2024} (identique à l'option \texttt{class\_weight='balanced'} de scikit-learn)~:
+\begin{equation}
+W_j=\frac{n}{K\,n_j},
+\label{eq:weights}
+\end{equation}
+où $n_j$ est l'effectif de la classe $j$. Dans la WRF, les proportions utilisées pour l'impureté et pour le vote des feuilles deviennent $\tilde p_k=W_k n_k/\sum_j W_j n_j$ ; dans la WLR, la perte devient $-\sum_i W_{y_i}\log\hat p(y_i\mid x_i)$ plus la pénalité $\ell_1$ ou $\ell_2$.
+
+\paragraph{SMOTE.} Pour un exemple minoritaire $x_i$ et l'un de ses $k$ plus proches voisins minoritaires $x_{nn}$, SMOTE crée $x_{\text{new}}=x_i+\lambda\,(x_{nn}-x_i)$, avec $\lambda\sim\mathcal U(0,1)$ \cite{chawla2002}.
+
+\paragraph{Autres classifieurs.} LR (régression logistique), KNN, SVM à noyau RBF (problème dual avec pénalité $C$), Bayes naïf gaussien (NB) et perceptron multicouche (ANN, activation ReLU, 350 itérations) complètent la comparaison, comme dans \cite{bader2024} ; WHGB est un \emph{gradient boosting} par histogrammes avec les poids de l'éq.~\eqref{eq:weights}.
+
+\subsection{Métriques d'évaluation}
+Avec $TP,FP,FN,TN$ les effectifs de la matrice de confusion : $\text{Précision}=\frac{TP}{TP+FP}$, $\text{Rappel}=\frac{TP}{TP+FN}$, $F_1=\frac{2\,P\,R}{P+R}$. Pour $K>2$ classes, on distingue la moyenne \emph{pondérée par le support} ($F_{1,p}$, utilisée par l'article : son rappel égale l'exactitude) et la moyenne \emph{macro} ($F_{1,m}$), insensible à la taille des classes et donc plus sévère pour les classes rares ; on ajoute l'exactitude équilibrée (rappel moyen par classe). L'AUC-ROC \cite{fawcett2006} est l'aire sous la courbe $\text{TPR}(\text{FPR})$ ; à quatre classes on retient la moyenne macro un-contre-tous, $\overline{\text{AUC}}=\frac1K\sum_k \text{AUC}(\mathbb 1[y=k],\hat p_k)$. L'AUC-PR (précision moyenne $\sum_n (R_n-R_{n-1})P_n$) est plus informative que l'AUC-ROC quand la classe d'intérêt est rare \cite{saito2015}.
+
+\subsection{Validation croisée}
+En validation croisée stratifiée à $K$ plis, les données sont partitionnées en $K$ blocs de proportions de classes identiques ; la performance estimée est $\hat s=\frac1K\sum_{k}s(\hat f^{(-k)},D_k)$ \cite{kohavi1995}. Pour comparer deux méthodes sur $J$ plis appariés, avec $d_j$ la différence de score au pli $j$, le test $t$ usuel sous-estime la variance car les plis partagent des données ; la statistique corrigée de Nadeau et Bengio \cite{nadeau2003} est
+\begin{equation}
+t=\frac{\bar d}{\sqrt{\left(\frac1J+\frac{n_{\text{test}}}{n_{\text{train}}}\right)\hat\sigma_d^{2}}},\qquad t\sim t_{J-1}.
+\end{equation}
+Le test des rangs signés de Wilcoxon \cite{wilcoxon1945} ne suppose pas la normalité de $d_j$. Pour comparer plus de deux modèles sur les mêmes plis, on utilise le test de Friedman \cite{friedman1937,demsar2006}, suivi du test post-hoc de Conover \cite{conover1999,pereira2015}.
+
+\subsection{Optimisation des hyperparamètres}
+Soit $\Lambda$ l'espace des hyperparamètres et $s_{\text{VC}}(\lambda)$ le score moyen en validation croisée du modèle $\hat f_\lambda$ ; on cherche $\lambda^\star=\arg\max_{\lambda\in\Lambda}s_{\text{VC}}(\lambda)$.
+\begin{itemize}[leftmargin=*,itemsep=0pt,topsep=2pt]
+\item \textbf{Grid Search} évalue tout $\Lambda=\prod_i\Lambda_i$ : le coût $|\Lambda|\times K$ ajustements croît exponentiellement avec le nombre d'hyperparamètres.
+\item \textbf{Random Search} tire $N$ configurations dans des distributions. Si une fraction $q$ de $\Lambda$ est « bonne », la probabilité d'en obtenir au moins une vaut $1-(1-q)^N$ : avec $N=30$ et $q=10\,\%$, $96\,\%$ \cite{bergstra2012}.
+\item \textbf{Optimisation bayésienne (TPE)} modélise $\ell(\lambda)=p(\lambda\mid y<y^{*})$ et $g(\lambda)=p(\lambda\mid y\geq y^{*})$ et propose le $\lambda$ maximisant $\ell(\lambda)/g(\lambda)$, ce qui équivaut à maximiser l'amélioration espérée \cite{bergstra2011,akiba2019}.
+\end{itemize}
+Lorsque $s_{\text{VC}}(\lambda^\star)$ est aussi utilisé pour juger le modèle, il est biaisé vers le haut ; la validation \emph{imbriquée} répète toute la recherche à l'intérieur de chaque pli d'entraînement externe \cite{cawley2010}.
